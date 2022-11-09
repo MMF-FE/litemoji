@@ -54,28 +54,28 @@ const shortCodesMatchList: CovFun[] = Object.keys(shortCodes).map((k) => {
 
     const htmlCode = codes.map((v) => `&#x${v};`).join('')
 
-    htmlMatchList.push((content: string) => {
+    htmlMatchList.push((content = '') => {
         if (!_excludeShortcodes.includes(key) && content.includes(key)) {
             return content.replaceAll(key, htmlCode)
         }
         return content
     })
 
-    emojiMatchList.push((content: string) => {
+    emojiMatchList.push((content = '') => {
         if (!_excludeShortcodes.includes(key) && content.includes(code)) {
             return content.replaceAll(code, key)
         }
         return content
     })
 
-    removeMatchList.push((content: string) => {
+    removeMatchList.push((content = '') => {
         if (!_excludeShortcodes.includes(key) && content.includes(code)) {
             return content.replaceAll(code, '')
         }
         return content
     })
 
-    return (content: string) => {
+    return (content = '') => {
         if (!_excludeShortcodes.includes(key) && content.includes(key)) {
             return content.replaceAll(key, code)
         }
@@ -84,25 +84,25 @@ const shortCodesMatchList: CovFun[] = Object.keys(shortCodes).map((k) => {
 })
 
 export function encodeUnicode(content: string) {
-    let out = content
+    let out = String(content || '')
     shortCodesMatchList.forEach((cov) => (out = cov(out)))
     return out
 }
 
 export function encodeShortcode(content: string) {
-    let out = content
+    let out = String(content || '')
     emojiMatchList.forEach((cov) => (out = cov(out)))
     return out
 }
 
 export function encodeHtml(content: string) {
-    let out = content
+    let out = String(content || '')
     htmlMatchList.forEach((cov) => (out = cov(out)))
     return out
 }
 
 export function removeEmoji(content: string) {
-    let out = content
+    let out = String(content || '')
     removeMatchList.forEach((cov) => (out = cov(out)))
     return out
 }
