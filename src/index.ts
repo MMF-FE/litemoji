@@ -20,13 +20,13 @@ const _excludeShortcodes: string[] = []
 
 /**
  * config
- * @param key 
- * @param value 
+ * @param key
+ * @param value
  */
 export function config(key: string, value: string[]) {
     switch (key) {
         case 'excludeShortcodes':
-            value.forEach(v => {
+            value.forEach((v) => {
                 if (!_excludeShortcodes.includes(v)) {
                     _excludeShortcodes.push(`:${v}:`)
                 }
@@ -76,7 +76,12 @@ const shortCodesMatchList: CovFun[] = Object.keys(shortCodes).map((k) => {
     })
 
     return (content = '') => {
-        if (!_excludeShortcodes.includes(key) && content.includes(key)) {
+        content = String(content || '')
+        if (
+            !_excludeShortcodes.includes(key) &&
+            content.includes(key) &&
+            content.replaceAll
+        ) {
             return content.replaceAll(key, code)
         }
         return content
